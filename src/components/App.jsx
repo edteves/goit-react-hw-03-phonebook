@@ -1,13 +1,15 @@
 import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
+import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
 
 export class App extends Component {
   state = {
-    contact: [
-      { id: 'id-1', name: 'Rose Simpson', number: '459-12-56' },
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-3', name: 'Rose Simpson', number: '227-91-26' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
   };
@@ -16,7 +18,8 @@ export class App extends Component {
     const savedContacts = localStorage.getItem('contacts');
 
     if (savedContacts !== null) {
-      this.setState({ contacts: JSON.parse });
+      // If something has already been saved in localStorage, we write THIS in the state
+      this.setState({ contacts: JSON.parse(savedContacts) });
     }
   }
 
@@ -24,6 +27,7 @@ export class App extends Component {
     const { contacts } = this.state;
 
     if (contacts !== prevState.contacts) {
+      // if a contact is new, set value to localStorage
       localStorage.setItem('contacts', JSON.stringify(contacts));
     }
   }
@@ -48,9 +52,9 @@ export class App extends Component {
 
   filterContact = () => {
     const { contacts, filter } = this.state;
-    const filterLowercase = filter.toLowerCase();
+    const filterLowerCase = filter.toLowerCase();
     return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterLowercase)
+      contact.name.toLowerCase().includes(filterLowerCase)
     );
   };
 

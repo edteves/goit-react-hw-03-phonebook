@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-// import css from
+import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 
-export class ContactFrom extends Component {
+export class ContactForm extends Component {
   static propTypes = {
     addContact: PropTypes.func.isRequired,
     contacts: PropTypes.arrayOf(
@@ -33,14 +33,17 @@ export class ContactFrom extends Component {
   };
 
   handleSubmit = e => {
+    // prevent the form refreshing when submitting
     e.preventDefault();
     const { name, number } = this.state;
     const { addContact, contacts } = this.props;
 
+    // if name and number is empty, it will not submit(return)
     if (name.trim() === '' || number.trim() === '') {
       return;
     }
 
+    // if existing contact set an alert, it will not submit(return)
     const existingContact = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
@@ -49,12 +52,14 @@ export class ContactFrom extends Component {
       return;
     }
 
+    // Add Contact
     addContact({
       id: nanoid(),
       name: name.trim(),
       number: number.trim(),
     });
 
+    // Reset Form Fields upon submitting
     this.setState({
       name: '',
       number: '',
